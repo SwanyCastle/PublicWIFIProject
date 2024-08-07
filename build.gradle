@@ -29,7 +29,7 @@ dependencies {
 
     // okhttp3 dependency 추가
     // https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp
-    implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '3.2.0'
+    implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.12.0'
 
     // gson dependency 추가
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
@@ -38,6 +38,7 @@ dependencies {
     // lombok dependency 추가
     // https://mvnrepository.com/artifact/org.projectlombok/lombok
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.30'
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.30'
 
     // mariadb jdbc dependency 추가
     // https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client
