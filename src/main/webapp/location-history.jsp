@@ -53,7 +53,8 @@
                             <td><%=locationHistoryDTO.getLat()%></td>
                             <td><%=locationHistoryDTO.getLnt()%></td>
                             <td><%=locationHistoryDTO.getSearchDate()%></td>
-                            <td><input type="button" value="삭제" id="row<%=locationHistoryDTO.getId()%>" onclick=""></td>
+                            <td><input type="button" value="삭제" id="<%=locationHistoryDTO.getId()%>"
+                                       onclick="deleteLocationHistory(id)"></td>
                         </tr>
                         <% } %>
                     <% } %>
@@ -61,6 +62,34 @@
             </table>
         </div>
         <script>
+            function deleteLocationHistory(id) {
+                if (confirm("정말로 삭제하시겠습니까?")) {
+                    fetch('deleteLocation', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: new URLSearchParams({
+                            'id': id
+                        })
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        alert("정상적으로 삭제되었습니다.")
+                        window.location.reload(true);
+                        return response.text();
+                    })
+                    .then(data => {
+                        console.log('Success:', data);
+                        document.getElementById("row" + id).remove();
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+                }
+            }
         </script>
     </body>
 </html>

@@ -101,4 +101,37 @@ public class LocationHistoryDAO {
         }
         return list;
     }
+
+    public boolean deleteLocationHistory(int id) {
+        boolean result = false;
+        try {
+            connection = DBConnection.connectDB();
+            String sql = "delete from location_history where id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            result = (rowsAffected > 0);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (preparedStatement != null && !preparedStatement.isClosed()) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                if (connection != null && !connection.isClosed()) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
 }
