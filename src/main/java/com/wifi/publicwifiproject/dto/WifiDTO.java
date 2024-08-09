@@ -6,6 +6,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 public class WifiDTO {
+    private int id;
     private double distance;
     private String xSwifiMgrNo;
     private String xSwifiWrdofc;

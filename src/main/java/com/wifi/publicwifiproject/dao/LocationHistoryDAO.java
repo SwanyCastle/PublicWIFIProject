@@ -13,7 +13,7 @@ public class LocationHistoryDAO {
     private static PreparedStatement preparedStatement = null;
     private static ResultSet resultSet = null;
 
-    public static void insertLocHistory(String lat, String lnt) {
+    public void insertLocHistory(String lat, String lnt) {
         connection = DBConnection.connectDB();
 
         String insertQuery = " insert into location_history (lat, lnt, search_date) values (?, ?, ?)";

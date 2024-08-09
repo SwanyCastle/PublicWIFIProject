@@ -110,6 +110,7 @@ public class WifiDAO {
 
             while (resultSet.next()) {
                 WifiDTO wifiDTO = new WifiDTO();
+                wifiDTO.setId(resultSet.getInt("id"));
                 wifiDTO.setDistance(resultSet.getDouble("distance"));
                 wifiDTO.setXSwifiMgrNo(resultSet.getString("x_swifi_mgr_no"));
                 wifiDTO.setXSwifiWrdofc(resultSet.getString("x_swifi_wrdofc"));
@@ -157,7 +158,70 @@ public class WifiDAO {
             }
         }
         // 여기서 위치정보 히스토리테이블에 저장
-        LocationHistoryDAO.insertLocHistory(lat, lnt);
+        LocationHistoryDAO lochistoryDAO = new LocationHistoryDAO();
+        lochistoryDAO.insertLocHistory(lat, lnt);
         return wifiDTOList;
+    }
+
+    public static WifiDTO detailWifiInfo(int id) {
+        connection = DBConnection.connectDB();
+        WifiDTO wifiDTO = new WifiDTO();
+        String selectQuery = " select * from wifi_info where id = ?; ";
+
+        try {
+            preparedStatement = connection.prepareStatement(selectQuery);
+            preparedStatement.setInt(1, id);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                wifiDTO.setId(resultSet.getInt("id"));
+                wifiDTO.setDistance(0.000);
+                wifiDTO.setXSwifiMgrNo(resultSet.getString("x_swifi_mgr_no"));
+                wifiDTO.setXSwifiWrdofc(resultSet.getString("x_swifi_wrdofc"));
+                wifiDTO.setXSwifiMainNm(resultSet.getString("x_swifi_main_nm"));
+                wifiDTO.setXSwifiAdres1(resultSet.getString("x_swifi_adres1"));
+                wifiDTO.setXSwifiAdres2(resultSet.getString("x_swifi_adres2"));
+                wifiDTO.setXSwifiInstlFloor(resultSet.getString("x_swifi_instl_floor"));
+                wifiDTO.setXSwifiInstlTy(resultSet.getString("x_swifi_instl_ty"));
+                wifiDTO.setXSwifiInstlMby(resultSet.getString("x_swifi_instl_mby"));
+                wifiDTO.setXSwifiSvcSe(resultSet.getString("x_swifi_svc_se"));
+                wifiDTO.setXSwifiCmcwr(resultSet.getString("x_swifi_cmcwr"));
+                wifiDTO.setXSwifiCnstcYear(resultSet.getString("x_swifi_cnstc_year"));
+                wifiDTO.setXSwifiInoutDoor(resultSet.getString("x_swifi_inout_door"));
+                wifiDTO.setXSwifiRemars3(resultSet.getString("x_swifi_remars3"));
+                wifiDTO.setLat(resultSet.getString("lat"));
+                wifiDTO.setLnt(resultSet.getString("lnt"));
+                wifiDTO.setWorkDttm(resultSet.getString("work_dttm"));
+            } else {
+                System.out.println("No data found for the given id: " + id);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null && !resultSet.isClosed()) {
+                    resultSet.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                if (preparedStatement != null && !preparedStatement.isClosed()) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                if (connection != null && !connection.isClosed()) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return wifiDTO;
     }
 }

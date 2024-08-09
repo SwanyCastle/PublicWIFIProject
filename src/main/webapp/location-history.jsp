@@ -11,25 +11,16 @@
 <html>
     <head>
         <title>와이파이 정보 구하기</title>
-        <style>
-            table {
-                width: 100%;
-            }
-            th, td {
-                border: 1px solid black;
-                border-collapse: collapse;
-                text-align: center;
-            }
-        </style>
+        <link rel="stylesheet" type="text/css" href="css/style.css">
     </head>
     <body>
         <h1>위치 히스토리 목록</h1>
         <div>
             <a href="index.jsp">홈</a> &nbsp;|&nbsp;
-            <a href="hello-servlet">위치 히스토리 목록</a> &nbsp;|&nbsp;
+            <a href="location-history.jsp">위치 히스토리 목록</a> &nbsp;|&nbsp;
             <a href="load-wifi.jsp">Open API 와이파이 정보 가져오기</a> &nbsp;|&nbsp;
-            <a href="hello-servlet">북마크 보기</a> &nbsp;|&nbsp;
-            <a href="hello-servlet">북마크 그룹 가져오기</a>
+            <a href="hello-servlet">즐겨찾기 보기</a> &nbsp;|&nbsp;
+            <a href="bookmarkGroupList.jsp">즐겨찾기 그룹 관리</a>
         </div>
         <br>
         <div>
