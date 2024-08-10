@@ -11,7 +11,7 @@ import java.io.IOException;
 
 @WebServlet("/updateBookMarkGroup")
 public class UpdateBookMarkGroup extends HttpServlet {
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         String bookmarkNameParam = request.getParameter("bookmark-name");
         String orderingNumberParam = request.getParameter("ordering-number");

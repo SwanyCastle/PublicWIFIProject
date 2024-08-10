@@ -15,10 +15,10 @@ public class WifiDAO {
     private static PreparedStatement preparedStatement = null;
 
     public static int insertWifiInfo(JsonArray jsonArray) {
-        connection = DBConnection.connectDB();
-
         int count = 0;
         try {
+            connection = DBConnection.connectDB();
+
             String inserQuery = " insert ignore into wifi_info ( " +
                     "x_swifi_mgr_no, x_swifi_wrdofc, x_swifi_main_nm, x_swifi_adres1, x_swifi_adres2, " +
                     "x_swifi_instl_floor, x_swifi_instl_ty, x_swifi_instl_mby, x_swifi_svc_se, x_swifi_cmcwr, " +
@@ -90,17 +90,15 @@ public class WifiDAO {
     }
 
     public static List<WifiDTO> nearWifiList(String lat, String lnt) {
-        connection = DBConnection.connectDB();
-
         List<WifiDTO> wifiDTOList = new ArrayList<>();
 
-        String selectQuery = " select *, " +
-                "round((6371 * acos(cos(radians(?)) * cos(radians(lat)) * cos(radians(lnt) - radians(?)) + sin(radians(?)) * sin(radians(lat)))), 4) AS distance " +
-                "from wifi_info " +
-                "order by distance " +
-                "limit 20; ";
-
         try {
+            connection = DBConnection.connectDB();
+            String selectQuery = " select *, " +
+                    "round((6371 * acos(cos(radians(?)) * cos(radians(lat)) * cos(radians(lnt) - radians(?)) + sin(radians(?)) * sin(radians(lat)))), 4) AS distance " +
+                    "from wifi_info " +
+                    "order by distance " +
+                    "limit 20; ";
             preparedStatement = connection.prepareStatement(selectQuery);
             preparedStatement.setDouble(1, Double.parseDouble(lat));
             preparedStatement.setDouble(2, Double.parseDouble(lnt));
@@ -164,11 +162,11 @@ public class WifiDAO {
     }
 
     public static WifiDTO detailWifiInfo(int id) {
-        connection = DBConnection.connectDB();
         WifiDTO wifiDTO = new WifiDTO();
-        String selectQuery = " select * from wifi_info where id = ?; ";
 
         try {
+            connection = DBConnection.connectDB();
+            String selectQuery = " select * from wifi_info where id = ?; ";
             preparedStatement = connection.prepareStatement(selectQuery);
             preparedStatement.setInt(1, id);
             resultSet = preparedStatement.executeQuery();

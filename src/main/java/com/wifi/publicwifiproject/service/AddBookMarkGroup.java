@@ -12,7 +12,7 @@ import java.io.IOException;
 
 @WebServlet("/addBookMarkGroup")
 public class AddBookMarkGroup extends HttpServlet {
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String bookmarkNameParam = request.getParameter("bookmark-name");
         String orderingNumberParam = request.getParameter("ordering-number");
         if (bookmarkNameParam != null && !bookmarkNameParam.isEmpty()

@@ -14,14 +14,10 @@ public class LocationHistoryDAO {
     private static ResultSet resultSet = null;
 
     public void insertLocHistory(String lat, String lnt) {
-        connection = DBConnection.connectDB();
-
-        String insertQuery = " insert into location_history (lat, lnt, search_date) values (?, ?, ?)";
-
-        Timestamp now = Timestamp.valueOf(LocalDateTime.now());
-
         try {
-            preparedStatement = connection.prepareStatement(insertQuery);
+            connection = DBConnection.connectDB();
+            String insertQuery = " insert into location_history (lat, lnt, search_date) values (?, ?, ?)";
+            Timestamp now = Timestamp.valueOf(LocalDateTime.now());            preparedStatement = connection.prepareStatement(insertQuery);
             preparedStatement.setDouble(1, Double.parseDouble(lat));
             preparedStatement.setDouble(2, Double.parseDouble(lnt));
             preparedStatement.setTimestamp(3, now);
@@ -58,11 +54,10 @@ public class LocationHistoryDAO {
     }
 
     public List<LocationHistoryDTO> locHistoryList () {
-        connection = DBConnection.connectDB();
         List<LocationHistoryDTO> list = new ArrayList<>();
-        String selectQuery = " select * from location_history order by search_date desc; ";
         try {
-            preparedStatement = connection.prepareStatement(selectQuery);
+            connection = DBConnection.connectDB();
+            String selectQuery = " select * from location_history order by search_date desc; ";            preparedStatement = connection.prepareStatement(selectQuery);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {

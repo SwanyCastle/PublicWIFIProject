@@ -1,7 +1,7 @@
 package com.wifi.publicwifiproject.dao;
 
 import com.wifi.publicwifiproject.DBConnection.DBConnection;
-import com.wifi.publicwifiproject.dto.BookMarkGroupDTO;
+import com.wifi.publicwifiproject.dto.BookMarkDTO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,18 +10,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookMarkGroupDAO {
+public class BookMarkDAO {
     private static Connection connection = null;
     private static PreparedStatement preparedStatement = null;
     private static ResultSet resultSet = null;
 
-    public void insertBookMark(String bookmarkName, int orderingNumber) {
+    public void insertBookMark(int wifiId, int bookmarkId) {
         try {
             connection = DBConnection.connectDB();
-            String insertQuery = " insert ignore into bookmark_group (group_name, ordering_number) values (?, ?); ";            preparedStatement = connection.prepareStatement(insertQuery);
-            preparedStatement.setString(1, bookmarkName);
-            preparedStatement.setInt(2, orderingNumber);
-
+            String insertQuery = " insert into bookmark (wifi_id, bookmark_group_id) values (?, ?); ";
+            preparedStatement = connection.prepareStatement(insertQuery);
+            preparedStatement.setInt(1, wifiId);
+            preparedStatement.setInt(2, bookmarkId);
             int checkNum = preparedStatement.executeUpdate();
 
             if (checkNum > 0) {
@@ -29,13 +29,14 @@ public class BookMarkGroupDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-
+        } finally {
             try {
-                connection.rollback();
-            } catch (SQLException sqlException) {
+                if (resultSet != null && !resultSet.isClosed()) {
+                    resultSet.close();
+                }
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
-        } finally {
             try {
                 if (preparedStatement != null && !preparedStatement.isClosed()) {
                     preparedStatement.close();
@@ -54,33 +55,30 @@ public class BookMarkGroupDAO {
         }
     }
 
-    public static List<BookMarkGroupDTO> bookMarkGroupList() {
-        List<BookMarkGroupDTO> list = new ArrayList<>();
+    public static List<BookMarkDTO> bookmarkList() {
+        List<BookMarkDTO> list = new ArrayList<>();
         try {
             connection = DBConnection.connectDB();
-            String selectQuery = " select * from bookmark_group order by ordering_number; ";
+            String selectQuery = " select bm.id, bm.wifi_id, wi.x_swifi_main_nm, bm.bookmark_group_id, bmg.group_name, bm.created_at " +
+                                    "from bookmark as bm " +
+                                    "join bookmark_group as bmg on bm.bookmark_group_id = bmg.id " +
+                                    "join wifi_info as wi on bm.wifi_id = wi.id; ";
             preparedStatement = connection.prepareStatement(selectQuery);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                BookMarkGroupDTO bmgDTO = new BookMarkGroupDTO();
-                bmgDTO.setId(resultSet.getInt("id"));
-                bmgDTO.setGroupName(resultSet.getString("group_name"));
-                bmgDTO.setOrderingNumber(resultSet.getInt("ordering_number"));
-                bmgDTO.setCreatedAt(resultSet.getString("created_at"));
-                bmgDTO.setUpdatedAt(resultSet.getString("updated_at"));
-                list.add(bmgDTO);
+                BookMarkDTO bmDTO = new BookMarkDTO();
+                bmDTO.setId(resultSet.getInt("bm.id"));
+                bmDTO.setWifiId(resultSet.getInt("bm.wifi_id"));
+                bmDTO.setWifiName(resultSet.getString("wi.x_swifi_main_nm"));
+                bmDTO.setBookmarkId(resultSet.getInt("bm.bookmark_group_id"));
+                bmDTO.setBookmarkName(resultSet.getString("bmg.group_name"));
+                bmDTO.setCreated_at(resultSet.getString("bm.created_at"));
+                list.add(bmDTO);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            try {
-                if (resultSet != null && !resultSet.isClosed()) {
-                    resultSet.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
             try {
                 if (preparedStatement != null && !preparedStatement.isClosed()) {
                     preparedStatement.close();
@@ -100,21 +98,25 @@ public class BookMarkGroupDAO {
         return list;
     }
 
-    public static BookMarkGroupDTO detailBookMarkGroup(int id) {
-        BookMarkGroupDTO bmgDTO = new BookMarkGroupDTO();
+    public static BookMarkDTO detailBookMark(int id) {
+        BookMarkDTO bmDTO = new BookMarkDTO();
         try {
             connection = DBConnection.connectDB();
-            String selectQuery = " select * from bookmark_group where id = ?; ";
+            String selectQuery = " select bm.id, bm.wifi_id, wi.x_swifi_main_nm, bm.bookmark_group_id, bmg.group_name, bm.created_at " +
+                                    "from bookmark as bm " +
+                                    "join bookmark_group as bmg on bm.bookmark_group_id = bmg.id " +
+                                    "join wifi_info as wi on bm.wifi_id = wi.id where bm.id = ?; ";
             preparedStatement = connection.prepareStatement(selectQuery);
             preparedStatement.setInt(1, id);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                bmgDTO.setId(resultSet.getInt("id"));
-                bmgDTO.setGroupName(resultSet.getString("group_name"));
-                bmgDTO.setOrderingNumber(resultSet.getInt("ordering_number"));
-                bmgDTO.setCreatedAt(resultSet.getString("created_at"));
-                bmgDTO.setUpdatedAt(resultSet.getString("updated_at"));
+                bmDTO.setId(resultSet.getInt("bm.id"));
+                bmDTO.setWifiId(resultSet.getInt("bm.wifi_id"));
+                bmDTO.setWifiName(resultSet.getString("wi.x_swifi_main_nm"));
+                bmDTO.setBookmarkId(resultSet.getInt("bm.bookmark_group_id"));
+                bmDTO.setBookmarkName(resultSet.getString("bmg.group_name"));
+                bmDTO.setCreated_at(resultSet.getString("bm.created_at"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -142,56 +144,18 @@ public class BookMarkGroupDAO {
                 e.printStackTrace();
             }
         }
-        return bmgDTO;
+        return bmDTO;
     }
 
-    public void updateBookMark(int id, String bookmarkName, int orderingNumber) {
+    public boolean deleteBookMark(int id) {
+        boolean result = false;
         try {
             connection = DBConnection.connectDB();
-            String updateQuery = " update bookmark_group set group_name = ?, ordering_number = ? where id = ?";            preparedStatement = connection.prepareStatement(updateQuery);
-            preparedStatement.setString(1, bookmarkName);
-            preparedStatement.setInt(2, orderingNumber);
-            preparedStatement.setInt(3, id);
-
-            int checkNum = preparedStatement.executeUpdate();
-
-            if (checkNum > 0) {
-                connection.commit();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-
-            try {
-                connection.rollback();
-            } catch (SQLException sqlException) {
-                e.printStackTrace();
-            }
-        } finally {
-            try {
-                if (preparedStatement != null && !preparedStatement.isClosed()) {
-                    preparedStatement.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
-            try {
-                if (connection != null && !connection.isClosed()) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public void deleteBookMark(int id) {
-        try {
-            connection = DBConnection.connectDB();
-            String sql = "delete from bookmark_group where id = ?";
+            String sql = "delete from bookmark where id = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
-            int rowsAffected = preparedStatement.executeUpdate();
+            int checkNum = preparedStatement.executeUpdate();
+            result = checkNum > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -211,5 +175,6 @@ public class BookMarkGroupDAO {
                 e.printStackTrace();
             }
         }
+        return result;
     }
 }

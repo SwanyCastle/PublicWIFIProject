@@ -11,7 +11,7 @@ import java.io.IOException;
 
 @WebServlet("/deleteBookMarkGroup")
 public class DeleteBookMarkGroup extends HttpServlet {
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String idParam = request.getParameter("id");
         if (idParam != null && !idParam.isEmpty()) {
             try {
