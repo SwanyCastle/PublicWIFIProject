@@ -16,3 +16,4 @@
   5. 내 주변 공공 WIFI 즐겨찾기(북마크) 생성 / 삭제 기능 및 즐겨찾기(북마크) 그룹 생성 / 수정 / 삭제 기능
 
 # 📌 Project 시연 영상
+https://youtu.be/mNw6Qan7ySI
