@@ -25,6 +25,7 @@
             }
 
             th {
+                width: 500px;
                 font-size: 12px;
                 color: white;
                 background-color: #029d5f;

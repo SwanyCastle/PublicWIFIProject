@@ -13,7 +13,38 @@
 <html>
     <head>
         <title>와이파이 정보 구하기</title>
-        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <style>
+            .input {
+                margin-bottom: 10px;
+            }
+
+            table, td, th {
+                border: 1px solid #dadad8;
+                padding: 15px 1px;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                border-spacing: 0 1rem;
+            }
+
+            th {
+                width: 500px;
+                font-size: 12px;
+                color: white;
+                background-color: #029d5f;
+            }
+
+            td {
+                height: 100%;
+                color: black;
+                font-size: 12px;
+            }
+
+            tr:hover {
+                background-color: lightgray;
+            }
+        </style>
     </head>
     <body>
         <%
@@ -62,7 +93,7 @@
                 </tr>
                 <tr>
                     <th>도로명주소</th>
-                    <td><%=wifiDTO.getXSwifiAdres1()%></td>
+                    <td><a href="detailWifi.jsp?id=<%=wifiDTO.getId()%>"><%=wifiDTO.getXSwifiMainNm()%></a></td>
                 </tr>
                 <tr>
                     <th>상세주소</th>

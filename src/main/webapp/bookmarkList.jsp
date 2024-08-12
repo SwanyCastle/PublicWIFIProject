@@ -50,6 +50,12 @@
                                 <td><a href="bookmarkDelete.jsp?id=<%=bookMarkDTO.getId()%>">삭제</a></td>
                             </tr>
                             <% } %>
+                    <% } else { %>
+                            <tr>
+                                <td colspan="5">
+                                    북마크가 존재하지 않습니다. 북마크를 추가해 주세요.
+                                </td>
+                            </tr>
                     <% } %>
                 </tbody>
             </table>
