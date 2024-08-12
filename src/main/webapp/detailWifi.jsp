@@ -89,11 +89,11 @@
                 </tr>
                 <tr>
                     <th>와이파이명</th>
-                    <td><%=wifiDTO.getXSwifiMainNm()%></td>
+                    <td><a href="detailWifi.jsp?id=<%=wifiDTO.getId()%>"><%=wifiDTO.getXSwifiMainNm()%></a></td>
                 </tr>
                 <tr>
                     <th>도로명주소</th>
-                    <td><a href="detailWifi.jsp?id=<%=wifiDTO.getId()%>"><%=wifiDTO.getXSwifiMainNm()%></a></td>
+                    <td><%=wifiDTO.getXSwifiAdres1()%></td>
                 </tr>
                 <tr>
                     <th>상세주소</th>
