@@ -48,6 +48,12 @@
                                        onclick="deleteLocationHistory(id)"></td>
                         </tr>
                         <% } %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="5">
+                                위치 히스토리 내역이 없습니다.
+                            </td>
+                        </tr>
                     <% } %>
                 </tbody>
             </table>

@@ -58,7 +58,7 @@
             <a href="location-history.jsp">위치 히스토리 목록</a> &nbsp;|&nbsp;
             <a href="load-wifi.jsp">Open API 와이파이 정보 가져오기</a> &nbsp;|&nbsp;
             <a href="bookmarkList.jsp">즐겨찾기 보기</a> &nbsp;|&nbsp;
-            <a href="bookmarkGroupList.jsp">즐겨찾기 그룹 가져오기</a>
+            <a href="bookmarkGroupList.jsp">즐겨찾기 그룹 관리</a>
         </div>
         <br>
         <div>

@@ -55,7 +55,7 @@
             <a href="location-history.jsp">위치 히스토리 목록</a> &nbsp;|&nbsp;
             <a href="load-wifi.jsp">Open API 와이파이 정보 가져오기</a> &nbsp;|&nbsp;
             <a href="bookmarkList.jsp">즐겨찾기 보기</a> &nbsp;|&nbsp;
-            <a href="bookmarkGroupList.jsp">즐겨찾기 그룹 가져오기</a>
+            <a href="bookmarkGroupList.jsp">즐겨찾기 그룹 관리</a>
         </div>
         <br>
         <p>즐겨찾기를 삭제하시겠습니까?</p>
@@ -68,7 +68,7 @@
                 </tr>
                 <tr>
                     <th>와이파이명</th>
-                    <td><%=bmDTO.getWifiName()%></td>
+                    <td><a href="detailWifi.jsp?id=<%=bmDTO.getWifiId()%>"><%=bmDTO.getWifiName()%></a></td>
                 </tr>
                 <tr>
                     <th>등록일자</th>
