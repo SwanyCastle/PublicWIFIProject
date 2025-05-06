@@ -2,11 +2,16 @@
   - 서울시 공공 와이파이 API를 이용해 현재 내 위치에서 가장 가까운 공공 WIFI 20개를 찾아 보여주는 프로젝트
 
 # 🛠️ Tech
-  - Java (JakartaEE, Gradle, jdk : Amazon Corretto 21.0.3)
+  - Java (21.0.3)
+  - Gradle
   - Mariadb
-  - Tomcat 10.1.26
-  - HTML5, CSS3, JSP
-  - Lombok, Okhttp3, Gson
+  - Tomcat (10.1.26)
+  - HTML5
+  - CSS3
+  - JSP
+  - Lombok
+  - Okhttp3
+  - Gson
 
 # 🗓️ Project 기능
   - **서울시 공공 Wi-Fi 위치정보 API 요청**
